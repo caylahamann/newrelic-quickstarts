@@ -97,17 +97,19 @@ export const generatePreviewComment = async (
   prURL?: string,
   prNumber?: string,
   token?: string
-): Promise<boolean> => {
+): Promise<string> => {
+  let comment = '';
+
   if (!token) {
     console.error(`Missing GITHUB_TOKEN environment variable`);
-    return false;
+    return '';
   }
 
   if (!prURL || !prNumber) {
     console.error(
       `Missing arguments. Example: ts-node create-preview-links.ts <pull request url> <github token>`
     );
-    return false;
+    return '';
   }
 
   try {
@@ -128,10 +130,10 @@ export const generatePreviewComment = async (
     }
   } catch (err) {
     console.error(err);
-    return false;
+    return '';
   }
 
-  return true;
+  return comment;
 };
 
 /**

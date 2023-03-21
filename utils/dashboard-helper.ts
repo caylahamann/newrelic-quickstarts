@@ -48,17 +48,19 @@ export const createWarningComment = (warnings: string[]) => {
 export const runHelper = async (
   prUrl?: string,
   token?: string
-): Promise<boolean> => {
+): Promise<string> => {
+  let warningComment = '';
+
   if (!token) {
     console.error(`Missing GITHUB_TOKEN environment variable`);
-    return false;
+    return '';
   }
 
   if (!prUrl) {
     console.error(
       `Missing arguments. Example: ts-node dashboard-helper.ts <pull request url>`
     );
-    return false;
+    return '';
   }
 
   const warnings: string[] = [];
@@ -92,7 +94,7 @@ export const runHelper = async (
       });
     } catch (error: any) {
       console.error('Error:', error.message);
-      return false;
+      return '';
     }
   }
 
@@ -102,7 +104,7 @@ export const runHelper = async (
     core.setOutput('comment', warningComment);
   }
 
-  return true;
+  return warningComment;
 };
 
 /**
