@@ -79,12 +79,12 @@ describe('dashboard-helper', () => {
     });
 
     test('exits if github token is undefined', async () => {
-      expect(await runHelper('PR_url')).toBe(false);
+      expect(await runHelper('PR_url')).toBe('');
       expect(console.error).toHaveBeenCalledTimes(1);
     });
 
     test('exits if PR url is undefined', async () => {
-      expect(await runHelper(undefined, 'token')).toBe(false);
+      expect(await runHelper(undefined, 'token')).toBe('');
       expect(console.error).toHaveBeenCalledTimes(1);
     });
 
@@ -105,7 +105,7 @@ describe('dashboard-helper', () => {
       });
 
       const output = await runHelper('http://localhost', 'token');
-      expect(output).toBe(true);
+      expect(output).toBe(output);
       expect(fetch).toHaveBeenCalledWith(
         'raw-url/dashboards/cool-dash/cool-dash.json',
         { headers: { authorization: 'token token' } }
@@ -127,7 +127,7 @@ describe('dashboard-helper', () => {
         }),
       });
       const output = await runHelper('http://localhost', 'token');
-      expect(output).toBe(false);
+      expect(output).toBe('');
     });
 
     test('handles non 200 status code;', async () => {
@@ -144,7 +144,7 @@ describe('dashboard-helper', () => {
         status: 404,
       });
       const output = await runHelper('http://localhost', 'token');
-      expect(output).toBe(false);
+      expect(output).toBe('');
       expect(console.error).toHaveBeenCalledWith(
         'Error:',
         '404 - raw-url/dashboards/cool-dash/cool-dash.json'

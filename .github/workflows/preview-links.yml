@@ -27,8 +27,6 @@ jobs:
         run: |
           cd utils && yarn create-preview-links "$PR_URL" "$PR_NUMBER"
       - name: Comment
-        if: steps.links.outputs.comment != ''
-        env:
-          COMMENT: ${{ steps.links.outputs.comment }}
+        if: env.COMMENT != ''
         run: |
-          gh pr comment "$PR_NUMBER" --body "$COMMENT"
+          gh pr comment "$PR_NUMBER" --body "env.COMMENT"
